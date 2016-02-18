@@ -6,6 +6,7 @@ import javax.persistence.EntityManagerFactory;
 import javax.sql.DataSource;
 
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.dao.annotation.PersistenceExceptionTranslationPostProcessor;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
@@ -17,11 +18,16 @@ import org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter;
 import org.springframework.transaction.PlatformTransactionManager;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 
+import com.bd.service.ProjetService;
+import com.bd.serviceImplementation.ProjetServiceImp;
+
 @Configuration
 @EnableTransactionManagement
-
+@ComponentScan(basePackages = {
+        "com.bd"
+})
 @EnableJpaRepositories(basePackages = {
-        "net.petrikainulainen.springdata.jpa.todo"
+        "com.bd.dao"
 })
 
 public class JavaConfig{
@@ -66,7 +72,7 @@ public class JavaConfig{
  
       Properties additionalProperties() {
       Properties properties = new Properties();
-      properties.setProperty("hibernate.hbm2ddl.auto", "create-drop");
+      properties.setProperty("hibernate.hbm2ddl.auto", "update");
       properties.setProperty("hibernate.cache.provider_class", "org.hibernate.cache.NoCacheProvider") ;
       properties.setProperty("hibernate.current_session_context_class", "thread") ;
       properties.setProperty("hibernate.show_sql", "true") ;
@@ -74,4 +80,9 @@ public class JavaConfig{
       properties.setProperty("hibernate.show_comments", "true") ;
       return properties;
    }
+      
+    	  
+      @Bean
+      public ProjetService ServiceProjetImp(){
+     	  return new ProjetServiceImp();}
 }
